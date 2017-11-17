@@ -103,8 +103,10 @@ class FirstTimeFlow extends Component {
         )
       case SCREEN_TYPE.NOTICE:
         return (
-          <NoticeScreen
-            next={() => this.setScreenType(SCREEN_TYPE.BACK_UP_PHRASE)}
+          <CreatePasswordScreen
+            next={() => this.setScreenType(SCREEN_TYPE.UNIQUE_IMAGE)}
+            goToImportAccount={() => this.setScreenType(SCREEN_TYPE.IMPORT_ACCOUNT)}
+            goToImportWithSeedPhrase={() => this.setScreenType(SCREEN_TYPE.IMPORT_SEED_PHRASE)}
           />
         )
       case SCREEN_TYPE.BACK_UP_PHRASE:

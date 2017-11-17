@@ -444,7 +444,7 @@ App.prototype.renderPrimary = function () {
   }
 
   // notices
-  if (!props.noActiveNotices) {
+  /*if (!props.noActiveNotices) {
     log.debug('rendering notice screen for unread notices.')
     return h(NoticeScreen, {
       notice: props.lastUnreadNotice,
@@ -458,7 +458,7 @@ App.prototype.renderPrimary = function () {
       key: 'LostAccountsNotice',
       onConfirm: () => props.dispatch(actions.markAccountsFound()),
     })
-  }
+  }*/
 
   if (props.seedWords) {
     log.debug('rendering seed words')
