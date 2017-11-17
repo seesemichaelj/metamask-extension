@@ -38,6 +38,9 @@ module.exports = class MetamaskController extends EventEmitter {
   constructor (opts) {
     super()
 
+    this.createVaultRequestStart = []
+    this.createVaultRequestEnd = []
+
     this.sendUpdate = debounce(this.privateSendUpdate.bind(this), 200)
 
     this.opts = opts
@@ -459,6 +462,10 @@ module.exports = class MetamaskController extends EventEmitter {
     )
   }
 
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   privateSendUpdate () {
     this.emit('update', this.getState())
   }
@@ -468,8 +475,30 @@ module.exports = class MetamaskController extends EventEmitter {
   //
 
   async createNewVaultAndKeychain (password, cb) {
+    this.createVaultRequestStart.push(performance.now())
+    this.createVaultRequestEnd.push(0);
+    const idx = this.createVaultRequestStart.length - 1;
+    if(idx === 1) {
+      //await this.sleep(1000)
+    }
     const vault = await this.keyringController.createNewVaultAndKeychain(password)
+    if(idx === 0) {
+      //await this.sleep(3000)
+    }
+    console.log({
+      "idx": idx,
+      "when": "before",
+      "obj": vault
+    });
     this.selectFirstIdentity(vault)
+    console.log({
+      "idx": idx,
+      "when": "after",
+      "obj": vault
+    });
+    this.createVaultRequestEnd[idx] = performance.now()
+    console.log(this.createVaultRequestStart)
+    console.log(this.createVaultRequestEnd)
     return vault
   }
 
@@ -511,12 +540,17 @@ module.exports = class MetamaskController extends EventEmitter {
   // Used when creating a first vault, to allow confirmation.
   // Also used when revealing the seed words in the confirmation view.
   placeSeedWords (cb) {
+    console.log(this.keyringController.getKeyringsByType('HD Key Tree'));
     const primaryKeyring = this.keyringController.getKeyringsByType('HD Key Tree')[0]
     if (!primaryKeyring) return cb(new Error('MetamaskController - No HD Key Tree found'))
     primaryKeyring.serialize()
     .then((serialized) => {
       const seedWords = serialized.mnemonic
       this.configManager.setSeedWords(seedWords)
+      console.log({
+        "keyring": primaryKeyring,
+        "seed": seedWords
+      });
       cb(null, seedWords)
     })
   }
