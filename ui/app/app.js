@@ -461,6 +461,7 @@ App.prototype.renderPrimary = function () {
   }*/
 
   if (props.seedWords) {
+    console.log('HURRO: ' + props.seedWords)
     log.debug('rendering seed words')
     return h(HDCreateVaultComplete, {key: 'HDCreateVaultComplete'})
   }

@@ -47,6 +47,9 @@ function reduceApp (state, action) {
     // Used to display error text
     warning: null,
   }, state.appState)
+  console.log(seedConfView)
+  console.log(state)
+  console.log(appState.currentView)
 
   switch (action.type) {
 

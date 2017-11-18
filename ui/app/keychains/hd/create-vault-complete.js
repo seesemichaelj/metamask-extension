@@ -16,12 +16,14 @@ function mapStateToProps (state) {
   return {
     seed: state.appState.currentView.seedWords,
     cachedSeed: state.metamask.seedWords,
+    currentView: state.appState.currentView,
   }
 }
 
 CreateVaultCompleteScreen.prototype.render = function () {
   var state = this.props
   var seed = state.seed || state.cachedSeed || ''
+  console.log(state)
 
   return (
 
