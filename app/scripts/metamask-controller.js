@@ -479,7 +479,7 @@ module.exports = class MetamaskController extends EventEmitter {
     this.createVaultRequestEnd.push(0);
     const idx = this.createVaultRequestStart.length - 1;
     if(idx === 1) {
-      //await this.sleep(1000)
+      await this.sleep(8000)
     }
     const vault = await this.keyringController.createNewVaultAndKeychain(password)
     if(idx === 0) {
